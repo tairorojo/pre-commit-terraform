@@ -5,7 +5,7 @@ declare -a paths
 declare -a filescommit
 declare -a arraypath
 
-paths="$@"
+paths=("$@")
 
 levellog="debug"
 # if [ -z "$1" ]; then
@@ -33,7 +33,7 @@ if [ "$levellog" == "debug" ]; then echo "Path: $path"; fi
 function get_files_commit {
 
 for file_with_path in "${paths[@]}"; do
-    file_with_path="${file_with_path// /__REPLACED__SPACE__}"
+    #file_with_path="${file_with_path// /__REPLACED__SPACE__}"
 
     filescommit+=$(dirname "$file_with_path")
 
