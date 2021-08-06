@@ -52,8 +52,10 @@ done
 
 
 function get_commit {
+    
     if [ "$levellog" == "debug" ]; then echo "function get_commit:"; fi
-    filescommit=($(git log -1 --oneline --name-only | grep "/"))
+    #filescommit=($(git log -1 --oneline --name-only | grep "/"))
+    filescommit=($(git diff --diff-filter=d --cached --name-only | grep "/"))
 
     if [ "$levellog" == "debug" ]; then echo "Values array filescommit:"; fi
     n=0
@@ -110,11 +112,11 @@ function precommit {
 
 # Comenzar Acciones
 
-if [ "${#paths[@]}" -gt 0 ]; then
-    get_files_commit
-else
+# if [ "${#paths[@]}" -gt 0 ]; then
+#     get_files_commit
+# else
     get_commit
-fi
+#fi
 
 create_array_path
 precommit
