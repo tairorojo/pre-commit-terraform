@@ -18,23 +18,23 @@ echo "PWD: $(pwd)"
 echo "Path: $path"
 
 function get_commit {
-    if [ "$levellog" == "debug" ]; then echo "function get_commit:"; fi
+    echo "function get_commit:"
     filescommit=($(git log -1 --oneline --name-only | grep "/"))
 
-    # if [ "$levellog" == "debug" ]; then echo "Values array filescommit:"; fi
-    # n=0
-    # for i in "${filescommit[@]}"; do
-    #     echo "Valor $n: $i";
-    #     let "n+=1"
-    # done
+    echo "Values array filescommit:"
+    n=0
+    for i in "${filescommit[@]}"; do
+        echo "Valor $n: $i";
+        let "n+=1"
+    done
 }
 
 function create_array_path {
-    if [ "$levellog" == "debug" ]; then echo "function create_array_path:"; fi
+    echo "function create_array_path:"
     for i in "${filescommit[@]}"; do
         #echo "Valor: $i";
         path_pre_commit=$(echo "$(dirname "${i}")") ;
-        #echo "Path: $path_pre_commit"
+        echo "Path: $path_pre_commit"
 
         # len=$(echo "${#arraypath[@]}")
         # #echo "Valor de len: $len"
@@ -68,10 +68,6 @@ function precommit {
         echo "pre-commit: $i";
         cd $path
         cd $i
-        pre-commit run -a
-        if [ $? -ne 0 ];then
-            exit $?
-        fi
     done
 }
 
