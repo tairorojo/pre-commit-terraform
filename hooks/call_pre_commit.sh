@@ -2,7 +2,11 @@
 set -euo pipefail
 declare -a filescommit
 declare -a arraypath
-levellog="info"
+if [ -z "$1" ]; then
+    levellog="info"
+else
+    levellog="$1"
+fi
 path=$(pwd)
 if [ "$levellog" == "debug" ]; then echo "path: $path"; fi
 path=${path/.git\/hooks/}
