@@ -1,4 +1,5 @@
 #!/bin/env bash
+set -eo pipefail
 declare -a filescommit
 declare -a arraypath
 levellog="debug"
@@ -13,6 +14,8 @@ else
     if [ "$levellog" == "debug" ]; then echo "ne0: $path"; fi
 fi
 
+echo "PWD: $(pwd)"
+echo "Path: $path"
 
 function get_commit {
     if [ "$levellog" == "debug" ]; then echo "function get_commit:"; fi
@@ -66,6 +69,9 @@ function precommit {
         cd $path
         cd $i
         pre-commit run -a
+        if [ $? -ne 0 ];then
+            exit $?
+        fi
     done
 }
 
