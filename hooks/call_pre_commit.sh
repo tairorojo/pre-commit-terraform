@@ -5,7 +5,7 @@ declare -a paths
 declare -a filescommit
 declare -a arraypath
 
-paths=("$@")
+paths=($@)
 
 levellog="debug"
 # if [ -z "$1" ]; then
