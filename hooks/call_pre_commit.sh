@@ -1,8 +1,8 @@
 #!/bin/env bash
-set -e
+set -euo pipefail
 declare -a filescommit
 declare -a arraypath
-levellog="debug"
+levellog="info"
 path=$(pwd)
 if [ "$levellog" == "debug" ]; then echo "path: $path"; fi
 path=${path/.git\/hooks/}
@@ -14,27 +14,27 @@ else
     if [ "$levellog" == "debug" ]; then echo "ne0: $path"; fi
 fi
 
-echo "PWD: $(pwd)"
-echo "Path: $path"
+if [ "$levellog" == "debug" ]; then echo "PWD: $(pwd)"; fi
+if [ "$levellog" == "debug" ]; then echo "Path: $path"; fi
 
 function get_commit {
-    echo "function get_commit:"
+    if [ "$levellog" == "debug" ]; then echo "function get_commit:"; fi
     filescommit=($(git log -1 --oneline --name-only | grep "/"))
 
-    echo "Values array filescommit:"
+    if [ "$levellog" == "debug" ]; then echo "Values array filescommit:"; fi
     n=0
     for i in "${filescommit[@]}"; do
-        echo "Valor $n: $i";
+        if [ "$levellog" == "debug" ]; then echo "Valor $n: $i"; fi
         let "n+=1"
     done
 }
 
 function create_array_path {
-    echo "function create_array_path:"
+    if [ "$levellog" == "debug" ]; then echo "function create_array_path:"; fi
     for i in "${filescommit[@]}"; do
         #echo "Valor: $i";
         path_pre_commit=$(echo "$(dirname "${i}")") ;
-        echo "Path: $path_pre_commit"
+        if [ "$levellog" == "debug" ]; then echo "Path: $path_pre_commit"; fi
 
         # len=$(echo "${#arraypath[@]}")
         # #echo "Valor de len: $len"
@@ -44,16 +44,16 @@ function create_array_path {
         # fi
 
         local needle="$path_pre_commit"
+        set +euo pipefail
         printf "%s\n" ${arraypath[@]} | grep -q "^$needle$"
         if [ $? -ne 0 ];then
-            echo "path_pre_commit: ${path_pre_commit}.pre-commit-config.yaml"
-            if [ -f ${path_pre_commit}.pre-commit-config.yaml ]; then
+            if [ "$levellog" == "debug" ]; then echo "path_pre_commit: ${path_pre_commit}/.pre-commit-config.yaml"; fi
+            if [ -f ${path_pre_commit}/.pre-commit-config.yaml ]; then
                 #echo "Sí, el fiechero existe."
                 arraypath+=("${path_pre_commit}")
             fi
-        else
-            echo "prinf no funciona."
         fi
+        set -euo pipefail
     done
 
     # echo "Values arraypath "
@@ -63,7 +63,7 @@ function create_array_path {
 }
 
 function precommit {
-    echo "function precommit:"
+    if [ "$levellog" == "debug" ]; then echo "function precommit:"; fi
     
     #echo "$path"
     for i in "${arraypath[@]}"; do
