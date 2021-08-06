@@ -1,5 +1,5 @@
 #!/bin/env bash
-set -eo pipefail
+
 declare -a filescommit
 declare -a arraypath
 levellog="debug"
