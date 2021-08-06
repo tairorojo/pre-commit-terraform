@@ -1,5 +1,5 @@
 #!/bin/env bash
-
+set -e
 declare -a filescommit
 declare -a arraypath
 levellog="debug"
@@ -51,6 +51,8 @@ function create_array_path {
                 #echo "Sí, el fiechero existe."
                 arraypath+=("${path_pre_commit}")
             fi
+        else
+            echo "prinf no funciona."
         fi
     done
 
