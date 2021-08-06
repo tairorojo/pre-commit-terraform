@@ -1,12 +1,18 @@
 #!/bin/env bash
 set -euo pipefail
+
+declare -a paths
 declare -a filescommit
 declare -a arraypath
+
+paths="$@"
+
 if [ -z "$1" ]; then
     levellog="info"
 else
     levellog="$1"
 fi
+
 path=$(pwd)
 if [ "$levellog" == "debug" ]; then echo "path: $path"; fi
 path=${path/.git\/hooks/}
@@ -20,6 +26,29 @@ fi
 
 if [ "$levellog" == "debug" ]; then echo "PWD: $(pwd)"; fi
 if [ "$levellog" == "debug" ]; then echo "Path: $path"; fi
+
+
+
+function get_files_commit {
+index=0
+for file_with_path in "${paths[@]}"; do
+    file_with_path="${file_with_path// /__REPLACED__SPACE__}"
+
+    filescommit+=$(dirname "$file_with_path")
+
+    #if [[ "$file_with_path" == *".tfvars" ]]; then
+        #tfvars_files+=("$file_with_path")
+    #fi
+
+    #let "index+=1"
+done
+
+for i in "${filescommit[@]}"; do
+    if [ "$levellog" == "debug" ]; then echo "Valor $n: $i"; fi
+    let "n+=1"
+done
+}
+
 
 function get_commit {
     if [ "$levellog" == "debug" ]; then echo "function get_commit:"; fi
@@ -78,8 +107,14 @@ function precommit {
     done
 }
 
+# Comenzar Acciones
 
-get_commit
+if [ "${#paths[@]}" -gt 0 ]; then
+    get_files_commit
+else
+    get_commit
+fi
+
 create_array_path
 precommit
 #ROOT_COMMIT=$(get_commit)
