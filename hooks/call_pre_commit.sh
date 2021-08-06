@@ -46,8 +46,8 @@ function create_array_path {
         local needle="$path_pre_commit"
         printf "%s\n" ${arraypath[@]} | grep -q "^$needle$"
         if [ $? -ne 0 ];then
-            #echo "path_pre_commit: ${path_pre_commit}.pre-commit-config.yaml"
-            if [ -f ${path_pre_commit}/.pre-commit-config.yaml ]; then
+            echo "path_pre_commit: ${path_pre_commit}.pre-commit-config.yaml"
+            if [ -f ${path_pre_commit}.pre-commit-config.yaml ]; then
                 #echo "Sí, el fiechero existe."
                 arraypath+=("${path_pre_commit}")
             fi
@@ -68,6 +68,7 @@ function precommit {
         echo "pre-commit: $i";
         cd $path
         cd $i
+        pre-commit run -a
     done
 }
 
