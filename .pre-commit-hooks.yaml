@@ -95,4 +95,5 @@
   language: script
   entry: hooks/call_pre_commit.sh
   exclude: \.+.terraform\/.*$
+  verbose: true
   require_serial: true

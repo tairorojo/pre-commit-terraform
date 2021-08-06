@@ -31,7 +31,7 @@ if [ "$levellog" == "debug" ]; then echo "Path: $path"; fi
 
 
 function get_files_commit {
-index=0
+
 for file_with_path in "${paths[@]}"; do
     file_with_path="${file_with_path// /__REPLACED__SPACE__}"
 
@@ -43,7 +43,7 @@ for file_with_path in "${paths[@]}"; do
 
     #let "index+=1"
 done
-
+n=0
 for i in "${filescommit[@]}"; do
     if [ "$levellog" == "debug" ]; then echo "Valor $n: $i"; fi
     let "n+=1"
