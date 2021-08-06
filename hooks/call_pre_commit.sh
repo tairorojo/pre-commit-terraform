@@ -7,11 +7,12 @@ declare -a arraypath
 
 paths="$@"
 
-if [ -z "$1" ]; then
-    levellog="info"
-else
-    levellog="$1"
-fi
+levellog="debug"
+# if [ -z "$1" ]; then
+#     levellog="info"
+# else
+#     levellog="$1"
+# fi
 
 path=$(pwd)
 if [ "$levellog" == "debug" ]; then echo "path: $path"; fi
